@@ -15,7 +15,6 @@ RUN apk add --update --no-cache tini bash \
  && tar zxpf /tmp/blackfire-probe.tar.gz -C /tmp/blackfire \
  && mv /tmp/blackfire/blackfire-*.so $(php -r "echo ini_get('extension_dir');")/blackfire.so \
  && printf "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8707\n" > $PHP_INI_DIR/conf.d/blackfire.ini \
- && rm -rf /tmp/blackfire /tmp/blackfire-probe.tar.gz \
 # install Blackfire client
  && curl -fLsS -A "Docker" https://blackfire.io/api/v1/releases/client/linux_static/amd64 | tar zxp -C /usr/local/bin/ blackfire \
 # filter out build dependencies that we need at runtime
@@ -27,7 +26,9 @@ RUN apk add --update --no-cache tini bash \
     )" \
  && apk add --virtual .phpext-rundeps $runDeps \
 # uninstall remaining build dependencies
- && apk del .build-deps
+ && apk del .build-deps \
+# empty /tmp directory
+ && rm -rf /tmp/*
 
 COPY php.ini php-cli.ini $PHP_INI_DIR/
 

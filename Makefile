@@ -39,7 +39,7 @@ SHELL ?= /bin/bash
 
 FORCE ?= 0
 VERSIONS = 5.6 7.0 7.1 7.2
-XEBUGVERSIONS = $(foreach version,$(VERSIONS),$(version)-xdebug)
+XDEBUGVERSIONS = $(foreach version,$(VERSIONS),$(version)-xdebug)
 
 # These targets match actual files/directories, but should be considered PHONY, see:
 #  https://www.gnu.org/software/make/manual/html_node/Phony-Targets.html
@@ -47,14 +47,15 @@ XEBUGVERSIONS = $(foreach version,$(VERSIONS),$(version)-xdebug)
 
 build : ## Build containers.
 build : $(VERSIONS) $(XDEBUGVERSIONS)
+	echo "Built: $(VERSIONS) $(XDEBUGVERSIONS)"
 
 $(VERSIONS) : # Magic target that builds the base container for each PHP version.
 	docker inspect alcohol/php:$@ &> /dev/null && [[ $(FORCE) -eq 0 ]] \
 	  || docker build --pull=true --file $@/Dockerfile --tag alcohol/php:$@ .
 
-%-xdebug : $$* xdebug.ini # Magic target that builds the xdebug variant of each base container.
+$(XDEBUGVERSIONS) : $$* xdebug/xdebug.ini # Magic target that builds the xdebug variant of each base container.
 	docker inspect alcohol/php:$@ &> /dev/null && [[ $(FORCE) -eq 0 ]] \
-	  || docker build --pull=true --file xdebug/Dockerfile --tag alcohol/php:$@ --build-arg VERSION=$* .
+	  || docker build --pull=true --tag alcohol/php:$@ --build-arg VERSION=$(subst -xdebug,,$@) xdebug
 
 push : ## Push tagged containers to Docker Hub.
 push : $(VERSIONS) $(XDEBUGVERSIONS)
