@@ -47,7 +47,7 @@ XDEBUGVERSIONS = $(foreach version,$(VERSIONS),$(version)-xdebug)
 
 build : ## Build containers.
 build : $(VERSIONS) $(XDEBUGVERSIONS)
-	echo "Built: $(VERSIONS) $(XDEBUGVERSIONS)"
+	@echo "Built: $(VERSIONS) $(XDEBUGVERSIONS)"
 
 $(VERSIONS) : # Magic target that builds the base container for each PHP version.
 	docker inspect alcohol/php:$@ &> /dev/null && [[ $(FORCE) -eq 0 ]] \
