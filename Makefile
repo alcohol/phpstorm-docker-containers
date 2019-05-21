@@ -38,7 +38,7 @@ SHELL ?= /bin/bash
 #  https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
 
 FORCE ?= 0
-VERSIONS = 5.6 7.0 7.1 7.2
+VERSIONS = 5.6 7.0 7.1 7.2 7.3
 XDEBUGVERSIONS = $(foreach version,$(VERSIONS),$(version)-xdebug)
 
 # These targets match actual files/directories, but should be considered PHONY, see:
