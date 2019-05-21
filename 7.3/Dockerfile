@@ -1,4 +1,4 @@
-FROM php:7.3-fpm-alpine3.7
+FROM php:7.3-fpm-alpine
 
 RUN apk add --update --no-cache tini bash \
 # install build dependencies
