@@ -2,7 +2,7 @@ FROM php:7.0-fpm-alpine
 
 RUN apk add --no-cache --upgrade tini bash \
 # install build dependencies
- && apk add --no-cache --virtual .build-deps autoconf g++ icu-dev make zlib-dev \
+ && apk add --no-cache --virtual .build-deps autoconf g++ make icu-dev zlib-dev libzip-dev \
 # enable extensions
  && docker-php-ext-configure intl \
  && docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) intl opcache zip \
