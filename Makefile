@@ -50,11 +50,11 @@ build: $(VERSIONS) $(XDEBUGVERSIONS)
 	@echo "Built: $(VERSIONS) $(XDEBUGVERSIONS)"
 
 $(VERSIONS): # Magic target that builds the base container for each PHP version.
-	docker inspect alcohol/php:$@ &> /dev/null && [[ $(FORCE) -eq 0 ]] \
+	docker inspect alcohol/php:$@ &> /dev/null && [ $(FORCE) -eq 0 ] \
 	  || docker build --pull=true --file $@/Dockerfile --tag alcohol/php:$@ .
 
 $(XDEBUGVERSIONS): $$* xdebug/xdebug.ini # Magic target that builds the xdebug variant of each base container.
-	docker inspect alcohol/php:$@ &> /dev/null && [[ $(FORCE) -eq 0 ]] \
+	docker inspect alcohol/php:$@ &> /dev/null && [ $(FORCE) -eq 0 ] \
 	  || docker build --pull=true --tag alcohol/php:$@ --build-arg VERSION=$(subst -xdebug,,$@) xdebug
 
 push: ## Push tagged containers to Docker Hub.
