@@ -58,6 +58,7 @@ help:
 	@grep -E '^[a-zA-Z_-]+: ## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-10s\033[0m %s\n", $$1, $$2}'
 	@echo
 
+.PHONY: $(VERSIONS)
 $(VERSIONS): php.ini php-cli.ini xdebug.ini
 	docker build --pull --file $@/Dockerfile --target base --tag alcohol/php:$@ .
 	docker build --pull --file $@/Dockerfile --target xdebug --tag alcohol/php:$@-xdebug .

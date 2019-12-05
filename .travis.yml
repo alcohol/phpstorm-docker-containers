@@ -15,6 +15,7 @@ git:
 
 before_install:
 - docker --version
+- make --version
 
 script:
 - make -j --output-sync=line build
