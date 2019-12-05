@@ -59,5 +59,5 @@ help:
 	@echo
 
 $(VERSIONS): php.ini php-cli.ini xdebug.ini
-	docker build --file $@/Dockerfile --target base --tag alcohol/php:$@ .
-	docker build --file $@/Dockerfile --target xdebug --tag alcohol/php:$@-xdebug .
+	docker build --pull --file $@/Dockerfile --target base --tag alcohol/php:$@ .
+	docker build --pull --file $@/Dockerfile --target xdebug --tag alcohol/php:$@-xdebug .
