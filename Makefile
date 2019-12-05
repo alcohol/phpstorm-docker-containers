@@ -31,42 +31,33 @@ SHELL ?= /bin/bash
 # Default target to run, see [5]
 .DEFAULT_GOAL := help
 
+VERSIONS := 7.0 7.1 7.2 7.3
+
 #
 # PROJECT TARGETS
 #
 # To learn more about automatic variables that can be used in target recipes, see:
 #  https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
 
-FORCE ?= 0
-VERSIONS = 7.0 7.1 7.2 7.3
-XDEBUGVERSIONS = $(foreach version,$(VERSIONS),$(version)-xdebug)
+.PHONY: build
+build: $(VERSIONS)
+build: ## Build all containers
 
-# These targets match actual files/directories, but should be considered PHONY, see:
-#  https://www.gnu.org/software/make/manual/html_node/Phony-Targets.html
-.PHONY: $(VERSIONS)
-
-build: ## Build containers.
-build: $(VERSIONS) $(XDEBUGVERSIONS)
-	@echo "Built: $(VERSIONS) $(XDEBUGVERSIONS)"
-
-$(VERSIONS): # Magic target that builds the base container for each PHP version.
-	docker inspect alcohol/php:$@ &> /dev/null && [ $(FORCE) -eq 0 ] \
-	  || docker build --file $@/Dockerfile --tag alcohol/php:$@ .
-
-$(XDEBUGVERSIONS): $$* xdebug/xdebug.ini # Magic target that builds the xdebug variant of each base container.
-	docker inspect alcohol/php:$@ &> /dev/null && [ $(FORCE) -eq 0 ] \
-	  || docker build --tag alcohol/php:$@ --build-arg VERSION=$(subst -xdebug,,$@) xdebug
-
-push: ## Push tagged containers to Docker Hub.
-push: $(VERSIONS) $(XDEBUGVERSIONS)
+.PHONY: push
+push: ## Push all containers
 	for version in $(VERSIONS); do \
-	  docker push alcohol/php:$${version}; \
-	  docker push alcohol/php:$${version}-xdebug; \
+	  docker push alcohol/php:$${version} ; \
+	  docker push alcohol/php:$${version}-xdebug ; \
 	done;
 
+.PHONY: help
 help:
 	@echo
 	@printf "%-10s %s\n" Target Description
 	@echo
 	@grep -E '^[a-zA-Z_-]+: ## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-10s\033[0m %s\n", $$1, $$2}'
 	@echo
+
+$(VERSIONS): php.ini php-cli.ini xdebug.ini
+	docker build --file $@/Dockerfile --target base --tag alcohol/php:$@ .
+	docker build --file $@/Dockerfile --target xdebug --tag alcohol/php:$@-xdebug .
