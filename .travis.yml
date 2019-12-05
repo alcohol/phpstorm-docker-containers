@@ -2,13 +2,6 @@ language: minimal
 
 dist: bionic
 
-addons:
-  apt:
-    sources:
-    - docker-bionic
-    packages:
-    - docker-ce
-
 git:
   depth: 10
   quiet: true
