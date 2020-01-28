@@ -1,4 +1,4 @@
-FROM php:7.3-cli-alpine AS base
+FROM php:7.4-cli-alpine AS base
 
 RUN set -eux; \
   apk add --no-cache tini bash; \
