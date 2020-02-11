@@ -6,12 +6,19 @@ git:
   depth: 10
   quiet: true
 
+env:
+  VERSIONS=7.0
+  VERSIONS=7.1
+  VERSIONS=7.2
+  VERSIONS=7.3
+  VERSIONS=7.4
+
 before_install:
 - docker --version
 - make --version
 
 script:
-- make -j --output-sync=line build
+- make build
 - echo $DOCKER_PASSWORD | docker login --username $DOCKER_USERNAME --password-stdin
 - make push
 - docker logout

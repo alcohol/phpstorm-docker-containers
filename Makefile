@@ -31,7 +31,7 @@ SHELL ?= /bin/bash
 # Default target to run, see [5]
 .DEFAULT_GOAL := help
 
-VERSIONS := 7.0 7.1 7.2 7.3 7.4
+VERSIONS ?= 7.0 7.1 7.2 7.3 7.4
 
 #
 # PROJECT TARGETS
@@ -45,10 +45,10 @@ build: ## Build all containers
 
 .PHONY: push
 push: ## Push all containers
-	for version in $(VERSIONS); do \
+	for version in $(VERSIONS) ; do \
 	  docker push alcohol/php:$${version} ; \
 	  docker push alcohol/php:$${version}-xdebug ; \
-	done;
+	done
 
 .PHONY: help
 help:
