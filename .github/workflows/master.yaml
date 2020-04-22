@@ -18,7 +18,7 @@ on:
 
 jobs:
 
-  7.0:
+  build-70:
     name: Build & Push 7.0
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -39,7 +39,7 @@ jobs:
         docker push alcohol/php:7.0
         docker push alcohol/php:7.0-xdebug
 
-  7.1:
+  build-71:
     name: Build & Push 7.1
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -60,7 +60,7 @@ jobs:
         docker push alcohol/php:7.1
         docker push alcohol/php:7.1-xdebug
 
-  7.2:
+  build-72:
     name: Build & Push 7.2
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -81,7 +81,7 @@ jobs:
         docker push alcohol/php:7.2
         docker push alcohol/php:7.2-xdebug
 
-  7.3:
+  build-73:
     name: Build & Push 7.3
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -102,7 +102,7 @@ jobs:
         docker push alcohol/php:7.3
         docker push alcohol/php:7.3-xdebug
 
-  7.4:
+  build-74:
     name: Build & Push 7.4
     runs-on: ubuntu-latest
     timeout-minutes: 20
