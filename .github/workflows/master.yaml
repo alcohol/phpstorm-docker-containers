@@ -1,0 +1,124 @@
+name: PHP
+
+on:
+  schedule:
+  #         ┌───────────── minute (0 - 59)
+  #         │ ┌───────────── hour (0 - 23)
+  #         │ │ ┌───────────── day of the month (1 - 31)
+  #         │ │ │ ┌───────────── month (1 - 12 or JAN-DEC)
+  #         │ │ │ │ ┌───────────── day of the week (0 - 6 or SUN-SAT)
+  #         │ │ │ │ │
+  #         │ │ │ │ │
+  #         │ │ │ │ │
+  #         * * * * *
+  - cron:  '0 8 * * 2'
+  push:
+    branches:
+    - master
+
+jobs:
+
+  7.0:
+    name: Build & Push 7.0
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Registry login
+      uses: azure/docker-login@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    - name: Build container(s)
+      run: |
+        docker build --file 7.0/Dockerfile --pull --no-cache --target base --tag alcohol/php:7.0 .
+        docker build --file 7.0/Dockerfile --pull --no-cache --target xdebug --tag alcohol/php:7.0-xdebug .
+    - name: Push container(s)
+      run: |
+        docker push alcohol/php:7.0
+        docker push alcohol/php:7.0-xdebug
+
+  7.1:
+    name: Build & Push 7.1
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Registry login
+      uses: azure/docker-login@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    - name: Build container(s)
+      run: |
+        docker build --file 7.1/Dockerfile --pull --no-cache --target base --tag alcohol/php:7.1 .
+        docker build --file 7.1/Dockerfile --pull --no-cache --target xdebug --tag alcohol/php:7.1-xdebug .
+    - name: Push container(s)
+      run: |
+        docker push alcohol/php:7.1
+        docker push alcohol/php:7.1-xdebug
+
+  7.2:
+    name: Build & Push 7.2
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Registry login
+      uses: azure/docker-login@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    - name: Build container(s)
+      run: |
+        docker build --file 7.2/Dockerfile --pull --no-cache --target base --tag alcohol/php:7.2 .
+        docker build --file 7.2/Dockerfile --pull --no-cache --target xdebug --tag alcohol/php:7.2-xdebug .
+    - name: Push container(s)
+      run: |
+        docker push alcohol/php:7.2
+        docker push alcohol/php:7.2-xdebug
+
+  7.3:
+    name: Build & Push 7.3
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Registry login
+      uses: azure/docker-login@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    - name: Build container(s)
+      run: |
+        docker build --file 7.3/Dockerfile --pull --no-cache --target base --tag alcohol/php:7.3 .
+        docker build --file 7.3/Dockerfile --pull --no-cache --target xdebug --tag alcohol/php:7.3-xdebug .
+    - name: Push container(s)
+      run: |
+        docker push alcohol/php:7.3
+        docker push alcohol/php:7.3-xdebug
+
+  7.4:
+    name: Build & Push 7.4
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Registry login
+      uses: azure/docker-login@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    - name: Build container(s)
+      run: |
+        docker build --file 7.4/Dockerfile --pull --no-cache --target base --tag alcohol/php:7.4 .
+        docker build --file 7.4/Dockerfile --pull --no-cache --target xdebug --tag alcohol/php:7.4-xdebug .
+    - name: Push container(s)
+      run: |
+        docker push alcohol/php:7.4
+        docker push alcohol/php:7.4-xdebug
