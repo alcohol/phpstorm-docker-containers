@@ -1,4 +1,4 @@
-FROM php:7.4-cli-alpine AS base
+FROM php:8.0-cli-alpine AS base
 
 # install non php packages
 RUN set -eux; \
