@@ -13,10 +13,13 @@ RUN set -eux; \
   chmod +x /usr/local/bin/install-php-extensions; \
   install-php-extensions \
     apcu \
-    apcu_bc \
+    bcmath \
+    gettext \
     intl \
-    pcntl \
+    mcrypt \
     opcache \
+    pcntl \
+    sockets \
     zip
 
 COPY php.ini php-cli.ini $PHP_INI_DIR/
