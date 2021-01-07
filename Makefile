@@ -31,7 +31,7 @@ SHELL ?= /bin/bash
 # Default target to run, see [5]
 .DEFAULT_GOAL := help
 
-VERSIONS ?= 7.0 7.1 7.2 7.3 7.4
+VERSIONS ?= 7.4 8.0
 
 #
 # PROJECT TARGETS
