@@ -59,3 +59,24 @@ jobs:
       run: |
         docker push alcohol/php:8.0
         docker push alcohol/php:8.0-xdebug
+
+  build-81:
+    name: Build & Push 8.1
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Registry login
+      uses: azure/docker-login@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    - name: Build container(s)
+      run: |
+        docker build --file 8.1/Dockerfile --pull --no-cache --target base --tag alcohol/php:8.1 .
+        docker build --file 8.1/Dockerfile --pull --no-cache --target xdebug --tag alcohol/php:8.1-xdebug .
+    - name: Push container(s)
+      run: |
+        docker push alcohol/php:8.1
+        docker push alcohol/php:8.1-xdebug
