@@ -1,4 +1,4 @@
-FROM php:8.1-rc-cli-alpine AS base
+FROM php:8.1-cli-alpine AS base
 
 # install non php packages
 RUN set -eux; \
@@ -23,6 +23,8 @@ RUN set -eux; \
     zip
 
 COPY php.ini php-cli.ini $PHP_INI_DIR/
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /srv
 

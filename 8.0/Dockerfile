@@ -24,6 +24,8 @@ RUN set -eux; \
 
 COPY php.ini php-cli.ini $PHP_INI_DIR/
 
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
 WORKDIR /srv
 
 ENTRYPOINT ["/sbin/tini", "--"]
