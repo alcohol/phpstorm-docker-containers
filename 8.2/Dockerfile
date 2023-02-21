@@ -16,7 +16,6 @@ RUN set -eux; \
     bcmath \
     gettext \
     intl \
-    mcrypt \
     opcache \
     pcntl \
     sockets \
