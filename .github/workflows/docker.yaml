@@ -13,6 +13,7 @@ on:
     #         * * * * *
     - cron:  '0 8 * * 2'
   push:
+    pull_request: null
     branches:
       - main
 
