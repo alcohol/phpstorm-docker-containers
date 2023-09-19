@@ -23,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
+      fail-fast: false
       matrix:
         tag:
           - '7.4'
@@ -31,17 +32,17 @@ jobs:
           - '8.2'
     steps:
       - uses: actions/checkout@v3
+      - name: Build container(s)
+        run: |
+          docker build --file ${{ matrix.tag }}/Dockerfile --pull --no-cache --target base --tag alcohol/php:${{ matrix.tag }} .
+          docker build --file ${{ matrix.tag }}/Dockerfile --pull --no-cache --target xdebug --tag alcohol/php:${{ matrix.tag }}-xdebug .
       - uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - name: Build container(s)
-        working-directory: ${{ matrix.tag }}
-        run: |
-          docker build --file 7.4/Dockerfile --pull --no-cache --target base --tag alcohol/php:${{ matrix.tag }} .
-          docker build --file 7.4/Dockerfile --pull --no-cache --target xdebug --tag alcohol/php:${{ matrix.tag }}-xdebug .
+        if: github.ref == 'refs/heads/main'
       - name: Push container(s)
-        working-directory: ${{ matrix.tag }}
         run: |
           docker push alcohol/php:${{ matrix.tag }}
           docker push alcohol/php:${{ matrix.tag }}-xdebug
+        if: github.ref == 'refs/heads/main'
