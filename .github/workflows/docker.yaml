@@ -47,12 +47,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build
-        uses:
-        run: |
-          docker build --file ${{ matrix.tag }}/Dockerfile --pull --no-cache --target base --tag alcohol/php:${{ matrix.tag }} .
-          docker build --file ${{ matrix.tag }}/Dockerfile --pull --no-cache --target xdebug --tag alcohol/php:${{ matrix.tag }}-xdebug .
-
       - name: Build base image
         uses: docker/build-push-action@v5
         with:
