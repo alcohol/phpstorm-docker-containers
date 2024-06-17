@@ -50,15 +50,17 @@ jobs:
       - name: Build base image
         uses: docker/build-push-action@v5
         with:
-          context: ${{ matrix.tag }}
+          file: ${{ matrix.tag }}/Dockerfile
           target: base
+          pull: true
           tags: alcohol/php:${{ matrix.tag }}
           push: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
 
       - name: Build xdebug image
         uses: docker/build-push-action@v5
         with:
-          context: ${{ matrix.tag }}
+          file: ${{ matrix.tag }}/Dockerfile
           target: xdebug
+          pull: true
           tags: alcohol/php:${{ matrix.tag }}-xdebug
           push: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
