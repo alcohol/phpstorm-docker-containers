@@ -13,7 +13,6 @@ on:
     #         * * * * *
     - cron:  '0 8 * * 2'
   push:
-    pull_request: null
     branches:
       - main
 
@@ -53,8 +52,8 @@ jobs:
           file: ${{ matrix.tag }}/Dockerfile
           target: base
           pull: true
+          push: true
           tags: alcohol/php:${{ matrix.tag }}
-          push: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
 
       - name: Build xdebug image
         uses: docker/build-push-action@v5
@@ -62,5 +61,5 @@ jobs:
           file: ${{ matrix.tag }}/Dockerfile
           target: xdebug
           pull: true
+          push: true
           tags: alcohol/php:${{ matrix.tag }}-xdebug
-          push: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
