@@ -47,7 +47,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build base image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           file: ${{ matrix.tag }}/Dockerfile
           target: base
@@ -56,7 +56,7 @@ jobs:
           tags: alcohol/php:${{ matrix.tag }}
 
       - name: Build xdebug image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           file: ${{ matrix.tag }}/Dockerfile
           target: xdebug
