@@ -59,7 +59,7 @@ jobs:
           tags: alcohol/php:${{ matrix.tag }}
 
       - name: Build xdebug image
-        if: ${{ matrix.tag }} != '8.5'
+        if: matrix.tag != '8.5'
         uses: docker/build-push-action@v6
         with:
           file: ${{ matrix.tag }}/Dockerfile
