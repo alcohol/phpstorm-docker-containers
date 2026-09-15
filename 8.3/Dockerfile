@@ -5,6 +5,7 @@ RUN set -eux; \
   apk add --no-cache --upgrade \
     bash \
     curl \
+    ssh-client \
     tini
 
 # install non-default extensions

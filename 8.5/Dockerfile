@@ -1,10 +1,11 @@
-FROM php:8.5-rc-cli-alpine AS base
+FROM php:8.5-cli-alpine AS base
 
 # install non php packages
 RUN set -eux; \
   apk add --no-cache --upgrade \
     bash \
     curl \
+    ssh-client \
     tini
 
 # install non-default extensions
