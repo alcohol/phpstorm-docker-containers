@@ -63,7 +63,8 @@ FROM base AS xdebug
 
 RUN apk add --no-cache --upgrade --virtual .build-deps \
   $PHPIZE_DEPS \
-  libtool
+  libtool \
+  linux-headers
 
 RUN pie install --no-cache xdebug/xdebug
 
