@@ -1,6 +1,6 @@
 FROM php:8.3-cli-alpine AS base
 
-# install non php packages
+# install non php package(s)
 RUN set -eux; \
   apk add --no-cache --upgrade \
     bash \
@@ -8,19 +8,24 @@ RUN set -eux; \
     openssh \
     tini
 
-# install non-default extensions
-ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+# install default extension(s)
 RUN set -eux; \
-  chmod +x /usr/local/bin/install-php-extensions; \
-  install-php-extensions \
-    apcu \
+  docker-php-ext-install -j"$(nproc)" \
     bcmath \
+    ftp \
     gettext \
     intl \
-    opcache \
     pcntl \
+    pdo_mysql \
+    soap \
     sockets \
+    xsl \
     zip
+
+COPY --from=ghcr.io/php/pie:bin /pie /usr/bin/pie
+
+# install non-default extension(s)
+RUN pie install --no-cache apcu/apcu
 
 COPY php.ini php-cli.ini $PHP_INI_DIR/
 
@@ -34,8 +39,6 @@ CMD ["php-fpm"]
 
 FROM base AS xdebug
 
-RUN set -eux; \
-  install-php-extensions \
-    xdebug
+RUN pie install --no-cache xdebug/xdebug
 
 COPY xdebug.ini $PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini
